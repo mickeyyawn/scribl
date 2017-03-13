@@ -1,18 +1,17 @@
 package main
 
-import "io"
-import "github.com/gorilla/mux"
 import "log"
 import "net/http"
 import "time"
 
 func main() {
 
-	r := mux.NewRouter()
-	r.HandleFunc("/_hc", HealthCheckHandler)
+	r := NewRouter()
+
+	//  TODO:  default to 9090, but honor PORT env var
 
 	// Serve static files
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
+	r.PathPrefix("/public/").Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("./public/"))))
 
 	server := &http.Server{
 		Handler:      r,
@@ -23,9 +22,4 @@ func main() {
 
 	log.Fatal(server.ListenAndServe())
 
-}
-
-// health check...
-func HealthCheckHandler(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello, world!\n")
 }
