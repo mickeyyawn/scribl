@@ -38,4 +38,5 @@ var routes = Routes{
 	Route{"Root", "GET", "/", Root},
 	//Route{"Leaderboard", "GET", "/l", Leaderboard},
 	Route{"Health", "GET", "/_hc", Health},
+	Route{"Health", "GET", "/_test", RenderPost},
 }
