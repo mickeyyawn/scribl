@@ -1,0 +1,66 @@
+func SyncRepo() {
+
+	fs := memfs.New()
+
+	repo, err := git.Clone(memory.NewStorage(), fs, &git.CloneOptions{
+		URL:      "https://github.com/mickeyyawn/yawn.me",
+		Progress: os.Stdout,
+	})
+
+	HandleError(err)
+
+	err = repo.Fetch(&git.FetchOptions{
+		RemoteName: "origin",
+	})
+	HandleError(err)
+
+	theFile, err := fs.Open("README.md")
+
+	io.Copy(os.Stdout, theFile)
+
+	// Prints the content of the CHANGELOG file from the cloned repository
+	//changelog, _ := fs.Open("CHANGELOG")
+
+	//io.Copy(os.Stdout, changelog)
+
+}
+
+//
+// this is deprecated for an inmemory version...
+//
+
+
+
+
+
+func RunInMemory() {
+	// Clones the given repository in memory, creating the remote, the local
+	// branches and fetching the objects, exactly as:
+	//Info("git clone https://github.com/src-d/go-siva")
+
+	r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
+		URL: "https://github.com/mickeyyawn/yawn.me",
+	})
+
+	HandleError(err)
+
+	// Gets the HEAD history from HEAD, just like does:
+	//Info("git log")
+
+	// ... retrieves the branch pointed by HEAD
+	ref, err := r.Head()
+	HandleError(err)
+
+	// ... retrieves the commit object
+	commit, err := r.Commit(ref.Hash())
+	HandleError(err)
+
+	// ... retrieves the commit history
+	history, err := commit.History()
+	HandleError(err)
+
+	// ... just iterates over the commits, printing it
+	for _, c := range history {
+		fmt.Println(c)
+	}
+}
