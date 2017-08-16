@@ -1,0 +1,12 @@
+localhost:8080
+gzip
+#
+# clone/pull this site using git into the "site" directory.  pull it every 60 seconds
+#
+git  {%GITHUB_URL%} site {
+	interval	60
+}
+
+
+
+
