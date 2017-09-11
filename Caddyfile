@@ -1,11 +1,49 @@
-localhost:8080
+#
+# serve this site
+#
+
+127.0.0.1:8080
+
+#
+# serve assets zipped
+#
+
 gzip
+
+#
+# set site directory as the root
+#
+
+root /site
+
+#
+# set our index page
+#
+
+index index.html
+
 #
 # clone/pull this site using git into the "site" directory.  pull it every 60 seconds
 #
-git  {%GITHUB_URL%} site {
-	interval	60
+
+git  {%GITHUB_URL%} {
+	interval	30
 }
+
+
+
+markdown /posts {
+    css /assets/css/style.css
+    js  /assets/js/scripts.js
+}
+
+
+
+#
+#
+#
+
+#startup pwd;ls -lf;
 
 
 
